@@ -16,6 +16,10 @@ interface ProductStore{
   products: Array<Product>,
     one:Product,
     visible: boolean,
+    checked: boolean,
+    selected: Array<Product>,
+    searchQuery: Array<Product>,
+    
 }
 
 function initState(): ProductStore{
@@ -30,6 +34,10 @@ function initState(): ProductStore{
     status: "",
     description:"",},
     visible: false,
+    checked : false,
+    selected: [],
+    searchQuery: [],
+    
   }
 
 }
@@ -38,8 +46,8 @@ export const productStore = defineStore('productStore', {
     return initState()
   },
   actions: {
-    fetchData(){
-      axios
+    async fetchData(){
+      await axios
       .get(`https://64930abe428c3d2035d13828.mockapi.io/crud`)
       .then((response) => {this.products = response.data})
     },
@@ -61,6 +69,24 @@ export const productStore = defineStore('productStore', {
     async update(one:Product){
       await axios.put(`https://64930abe428c3d2035d13828.mockapi.io/crud/${one.id}`,one)
         .catch((error) => console.log(error));
+    },
+    
+    async resultQuery() {
+      if (this.searchQuery) {
+        return this.products.filter((one) => {
+          return this.searchQuery
+            .toString()
+            .toLowerCase()
+            .split(" ")
+            .every((v) => one.name.toLowerCase().includes(v));
+        });
+      } else {
+        return this.products;
+      }
+    },
+    async checkForm(){
+
     }
+
   },
 })

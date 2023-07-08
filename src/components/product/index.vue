@@ -1,11 +1,31 @@
 <template>
-<div v-for="one in products" class="col-12">
+      <span
+        class="p-input-icon-right mt-5 mb-2 md:mt-0 md:mb-0 w-full lg:w-25rem">
+        <i class="pi pi-search text-gray-400"></i>
+        <input
+          class="form-control"
+          type="text"
+          v-model="searchQuery"
+          placeholder="Search"
+        />
+      </span>
+  <div v-for="one in filteredResources" class="col-12">
+    
     <div
       class="p-2 my-4 flex flex-column lg:flex-row justify-content-between align-items-center"
     >
       <div
         class="flex flex-column lg:flex-row justify-content-center align-items-center px-2"
       >
+        <td>
+          <checkbox
+            v-model="selected"
+
+            :value="one.id"
+            @click="selectRow(one)"
+          />
+        </td>
+
         <img
           :src="one.image"
           alt="one"
@@ -15,15 +35,12 @@
           <span class="text-900 font-medium mb-3 mt-3 lg:mt-0">{{
             one.name
           }}</span>
-          <span class="text-600 text-sm mb-3">{{
-            one.description
-          }}</span>
+          <span class="text-600 text-sm mb-3">{{ one.description }}</span>
           <a
             v-ripple
             tabindex="0"
             class="p-2 cursor-pointer w-9rem mx-auto lg:mx-0 border-round font-medium text-center border-1 border-primary text-primary transition-duration-150 p-ripple"
-            >Buy Again
-            <span class="font-light">{{ one.price }}$</span></a
+            >Buy Again <span class="font-light">{{ one.price }}$</span></a
           >
         </div>
       </div>
@@ -37,59 +54,99 @@
           label="Edit"
           @click="handleClickEdit(one)"
         />
-        <Button
+        
+      </div>
+    </div>
+    <Divider class="w-full block lg:hidden surface-border"></Divider>
+  </div>
+  <div class="col-12 p-0 flex border-top-1 surface-border">
+    <Button class="pi pi-folder mr-2 mb-2 md:mb-0" @click="handleClickAdd()"
+      >Add</Button>
+      <Button
           style="
             margin: 0 5px;
             border-radius: 2.5rem;
             background-color: rgb(151, 9, 9);
           "
           label="Delete"
-          @click="delProduct(one)"
-        />
-      </div>
-    </div>
-    <Divider class="w-full block lg:hidden surface-border"></Divider>
+          @click="delProduct()"
+        ></Button>
   </div>
-  <div class="col-12 p-0 flex border-top-1 surface-border">
-          <Button class="pi pi-folder mr-2 mb-2 md:mb-0" @click="handleClickAdd()">Add</Button>
-        </div>
-       <ProductDialog/>
- </template> 
+  <ProductDialog />
+</template>
 
- <script>
- import { defineComponent } from "vue";
-  import {productStore} from "@/stores/product";
-  import {mapActions, mapState, mapWritableState }  from "pinia";
-  import ProductDialog from "@/components/product/Dialog.vue";
- export default defineComponent({
-  components: {ProductDialog},
-    
-    computed: {
-    ...mapState(productStore, ['products'], ),
-    ...mapWritableState(productStore, ['one','visible'],)
-    },
-    created() {
-      this.fetchData();
-    },
-    methods:{
-      ...mapActions(productStore, ['fetchData', 'delete', 'update','create']),
-      handleClickEdit(abc) {
-        this.visible = true;
-        this.one = abc;// khi bấm nút edit abc có tất cả giá trị của one
-        console.log(abc)
-      },
-      async delProduct(one) {
-        await this.delete(one.id);
-        await this.fetchData();
-      },
-      // func handle click button edit
-      handleClickAdd() {
-        this.visible = true;
-        this.one = [];
-      },
-      
+<script lang="ts">
+import { defineComponent } from "vue";
+import { productStore, type Product } from "@/stores/product";
+import { mapActions, mapState, mapWritableState } from "pinia";
+import ProductDialog from "@/components/product/Dialog.vue";
+export default defineComponent({
+  components: { ProductDialog },
+  data() {
+    return {
+      selected: []  as Array<number> ,
+      searchQuery:'',
+    };
+  },
+  computed: {
+    ...mapState(productStore, ["products",]),
+    ...mapWritableState(productStore, [
+      "one",
+      "visible",
+      "checked",
+    ]),
+    filteredResources(){
+      if(this.searchQuery){
+      return this.products.filter((one)=>{
+        return one.name.startsWith(this.searchQuery);
+      })
+      }else{
+        return this.products;
+      }
     }
- });
+  },
+  created() {
+    this.fetchData();
+  },
+  methods: {
+    ...mapActions(productStore, ["fetchData", "delete", "update", "create",]),
+    selectRow(one:Product) {
+      if(!one.id) return
+    const index = this.selected.indexOf(one.id);
+
+    if (index > -1) {
+      this.selected.splice(index, 1);
+    } else {
+      this.selected.push(one.id);
+    }
+    console.log(this.selected);
+    },
+    handleClickEdit(abc:Product) {
+      this.visible = true;
+      this.one = abc; // khi bấm nút edit abc có tất cả giá trị của one
+    },
+    async delProduct() { 
+       (this.selected.forEach( async (id) => { //lấy phần tử trong mảng selected
+         await this.delete(id);
+      }));
+      await this.fetchData();
+      this.selected = [];
+    },
+    // func handle click button edit
+    handleClickAdd() {
+      this.visible = true;
+      this.one = {
+            name:"",
+            image:"",
+            price: 0,
+            category:"",
+            review: "",
+            status: "",
+            description:"",};
+    },
+    
+  },
+});
 </script>
 
 <style scoped>
