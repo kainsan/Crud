@@ -25,14 +25,10 @@
             </div>
             <button class="btn" @click="login">Submit</button>
             <div class="register-link">
-                <button class="btn" ><RouterLink to="/register"></RouterLink>Register</button>
+                <button class="btn" ><router-link to="/register">Register</router-link></button>
             </div> 
     </div>
 </body>
-    
-    
-
-    <p></p>
 </template>
 
 <script setup>

@@ -1,6 +1,7 @@
 import './assets/main.css'
 import PrimeVue from 'primevue/config';
 import "primeflex/primeflex.css";
+import 'primeicons/primeicons.css';
 //theme
 import "primevue/resources/themes/lara-light-indigo/theme.css";     
 
@@ -13,6 +14,11 @@ import InputText from 'primevue/inputtext';
 import Checkbox from 'primevue/checkbox';
 import Textarea from 'primevue/textarea';
 import InlineMessage from 'primevue/inlinemessage';
+import DataTable from 'primevue/datatable';
+import Column from 'primevue/column';
+import ColumnGroup from 'primevue/columngroup';   // optional
+import Row from 'primevue/row';                   // optional
+import Toast from 'primevue/toast';
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
@@ -55,4 +61,10 @@ app.component('Checkbox', Checkbox)
 app.component('Paginator', Paginator)
 app.component('Chips',Chips)
 app.component('TextArea', Textarea)
+app.component('InputText',InputText)
+app.component('DataTable',DataTable)
+app.component('Column',Column)
+app.component('ColumnGroup',ColumnGroup)
+app.component('Row',Row)
+app.component('Toast',Toast)
 app.mount('#app')

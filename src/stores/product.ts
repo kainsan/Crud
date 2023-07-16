@@ -49,7 +49,14 @@ export const productStore = defineStore('productStore', {
     async fetchData(){
       await axios
       .get(`https://64930abe428c3d2035d13828.mockapi.io/crud`)
-      .then((response) => {this.products = response.data})
+      .then((response) => {this.products = response.data
+                            this.selected = [];})
+    },
+    async fetchOne(id:number){
+      return await axios
+      .get(`https://64930abe428c3d2035d13828.mockapi.io/crud/${id}`)
+      .then(response => response.data)
+      
     },
     async create(one:Product) {
           console.log(one);

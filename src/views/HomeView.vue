@@ -9,7 +9,7 @@ import Footer from "./Footer.vue";
   <Header/>
   <main>
     <RouterView></RouterView>
-    <Button class="pi pi-folder mr-2 mb-2 md:mb-0" style="color: red" ><RouterLink to="/product">Product</RouterLink></Button>
+    <Button class="" style="background-color: orange" ><RouterLink to="/product">Product</RouterLink></Button>
   </main>
   <Footer/>
 </template>
