@@ -1,42 +1,6 @@
 <template>
-  <div class="surface-section px-4 py-8 md:px-6 lg:px-8">
-    <div
-      class="flex flex-column md:flex-row justify-content-between align-items-center mb-4"
-    >
-      <div class="flex flex-column text-center md:text-left">
-        <span class="text-900 text-3xl font-medium mb-2">My Orders</span>
-        <span class="text-600 text-xl">Dignissim diam quis enim lobortis.</span>
-      </div>
-
-      
-    </div>
+  <div >
     <RouterView></RouterView>
-    <div class="surface-card grid grid-nogutter border-round shadow-2">
-      <!-- <div class="col-12 flex p-2 surface-100 border-round-top">
-          <div class="p-2 flex-auto text-center md:text-left">
-            <span class="text-700 block">Order Number</span>
-            <span class="text-900 font-medium block mt-2">45123</span>
-          </div>
-          <Divider
-            align="center"
-            layout="vertical"
-            class="h-full mx-0 lg:mx-3"
-          ></Divider>
-          <div class="p-2 flex-auto text-center md:text-left">
-            <span class="text-700 block">Order Date</span>
-            <span class="text-900 font-medium block mt-2">7 February 2023</span>
-          </div>
-          <Divider
-            align="center"
-            layout="vertical"
-            class="h-full mx-0 lg:mx-3"
-          ></Divider>
-          <div class="p-2 flex-auto text-center md:text-left">
-            <span class="text-700 block">Total Amount</span>
-            <span class="text-900 font-medium block mt-2">$123.00</span>
-          </div>
-        </div> -->
-    </div>
   </div>
 
   

@@ -9,7 +9,9 @@ import Footer from "./Footer.vue";
   <Header/>
   <main>
     <RouterView></RouterView>
+    
     <Button class="" style="background-color: orange" ><RouterLink to="/product">Product</RouterLink></Button>
+    
   </main>
   <Footer/>
 </template>

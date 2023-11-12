@@ -1,5 +1,5 @@
 <template>
-<head>
+    <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login form</title>
@@ -7,72 +7,22 @@
 </head> 
 <body>
     <div class="wrapper">
-            <h1>Sign in Account</h1>
+            <h1>Forgot Account</h1>
             <div class="input-box">
-                <input id="email" type="text" placeholder="Email" v-model="email"/>
+                <input type="text" placeholder="Email" v-model="email"/>
                  <i class="bx bxs-user"></i>
             </div> 
-             <div class="input-box">
-                <input id="password" type="password" placeholder="Password" v-model="password"/>
-                <i class="bx bxs-lock-alt"></i>
-            </div>
+             
             <p v-if ="errMsg">{{ errMsg }}</p>
             <div class="remember-forgot">
                 <label >
                     <input type="checkbox">
                 </label>
-                <router-link to="/forgotpassword">Forgot Password ?</router-link>
             </div>
-            <button class="btn" @click="login">Submit</button>
-            <div class="register-link">
-                <router-link to="/register"><button class="btn" >Register</button></router-link>
-            </div> 
+            <button class="btn" @click="resetPassword">Submit</button>
     </div>
 </body>
 </template>
-
-<script setup>
-import {ref} from "vue";
-import {getAuth, signInWithEmailAndPassword} from "firebase/auth";
-import { useRouter } from "vue-router";
-import { RouterLink, RouterView } from 'vue-router'
-const email = ref("");
-const password = ref("");
-const router = useRouter();
-const errMsg = ref("");
-
-const login = () =>{
-    const auth = getAuth();
-    signInWithEmailAndPassword(auth, email.value, password.value)
-    .then((data) =>{
-        console.log("Successful signed in")
-        console.log (auth.currentUser)
-        router.push('/product')
-    })
-    .catch((error) =>{
-        console.log(error.code)
-        switch(error.code){
-            case "auth/invalid-email":
-                errMsg.value = "Invalid email";
-            break;
-            case "auth/user-not-found":
-                errMsg.value = "No acc found";
-            break;
-            case "auth/wrong-password":
-                errMsg.value = "Wrong pass";
-            break;
-            case "auth/invalid-email":
-                errMsg.value = "Invalid email";
-            break;
-            default:
-                errMsg.value="Email or Pass was incorrect "
-            break;
-        }
-            
-    });
-}
-</script>   
-
 <style scoped>
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100&display=swap" );
 *{
@@ -88,7 +38,7 @@ body {
     min-height: 100vh;
     background-size: cover ;
     background-position: center;
-    background: url(D:\dlieu\Crud\crud\src\assets\forest.jpg) ;
+    background: url(E:\Crud\crud\src\assets\forest.jpg) ;
 }
 .wrapper {
     width: 420px;
@@ -179,3 +129,25 @@ text-decoration: none;
     text-decoration: underline;
 }
 </style>
+<script setup>
+import {ref} from "vue";
+import {getAuth, sendPasswordResetEmail} from "firebase/auth";
+import { useRouter } from "vue-router";
+import { RouterLink, RouterView } from 'vue-router'
+
+const email = ref("");
+const errMsg = ref("");
+
+const resetPassword =() => {
+        const auth = getAuth();
+      sendPasswordResetEmail(auth,email.value)
+        .then(() => {
+          // Email đặt lại mật khẩu đã được gửi thành công
+          console.log('Email đặt lại mật khẩu đã được gửi thành công');
+        })
+        .catch((error) => {
+          // Xử lý lỗi nếu có
+          console.error(error);
+        });
+    }
+</script>

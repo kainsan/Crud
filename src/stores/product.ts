@@ -71,7 +71,6 @@ export const productStore = defineStore('productStore', {
     async delete(id: number){
        await axios.delete(`https://64930abe428c3d2035d13828.mockapi.io/crud/${id}`)
             .catch((error) => console.log(error));
-
     },
     async update(one:Product){
       await axios.put(`https://64930abe428c3d2035d13828.mockapi.io/crud/${one.id}`,one)
