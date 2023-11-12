@@ -9,11 +9,11 @@
     <div class="wrapper">
             <h1>Sign in Account</h1>
             <div class="input-box">
-                <input id="email" type="text" placeholder="Email" v-model="email"/>
+                <input name="email" type="text" placeholder="Email" v-model="email"/>
                  <i class="bx bxs-user"></i>
             </div> 
              <div class="input-box">
-                <input id="password" type="password" placeholder="Password" v-model="password"/>
+                <input name="password" type="password" placeholder="Password" v-model="password"/>
                 <i class="bx bxs-lock-alt"></i>
             </div>
             <p v-if ="errMsg">{{ errMsg }}</p>
@@ -23,7 +23,7 @@
                 </label>
                 <router-link to="/forgotpassword">Forgot Password ?</router-link>
             </div>
-            <button class="btn" @click="login">Submit</button>
+            <button name="btnLogin" class="btn" @click="login">Submit</button>
             <div class="register-link">
                 <router-link to="/register"><button class="btn" >Register</button></router-link>
             </div> 
